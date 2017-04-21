@@ -7,10 +7,10 @@ import java.util.Observer;
 
 import javax.swing.JTextField;
 
-import abstraction.fourni.Acteur;
+import abstraction.fourni.Acteurmodif;
 import abstraction.fourni.Indicateur;
 
-class Utilisateur implements Acteur {
+class Utilisateur implements Acteurmodif {
 	public String getNom() {
 		return "utilisateur";
 	}
