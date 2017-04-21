@@ -6,8 +6,8 @@ public abstract class OrdrePrixFixe extends Ordre {
 	
 	private float prix ;
 	
-	public OrdrePrixFixe(Acteurmodif auteur, float qtx,float prix){
-		super(auteur,qtx);
+	public OrdrePrixFixe(Acteurmodif auteur, float qtx,float prix,int step){
+		super(auteur,qtx,step);
 		this.prix=prix;
 	}
 

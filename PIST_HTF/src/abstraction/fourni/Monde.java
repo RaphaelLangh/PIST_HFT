@@ -1,7 +1,13 @@
 package abstraction.fourni;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+
+
 import java.util.Observable;
+
+import Ordre.Ordre;
 
 
 /**
@@ -29,6 +35,8 @@ public class Monde extends Observable {
 	private ArrayList<Acteurmodif> acteurs;        // La liste des acteurs
 	private ArrayList<Indicateur> indicateurs;// La liste des indicateurs
 	private ArrayList<Journal> journaux;      // La liste des journaux
+	private ArrayList<Ordre> ordres;			//Ordres passés par les acteurs
+	private float prix ; 						// Prix du marché 
 	
 	/**
 	 * Initialise le monde de sorte que le numero d'etape soit 0, 
@@ -62,6 +70,38 @@ public class Monde extends Observable {
 	 */
 	public int getStep() {
 		return this.step;
+	}
+	
+	public ArrayList<Ordre> getOrdres() {
+		return this.ordres;
+	}
+	public Ordre getOrdre(int i){
+		return this.getOrdres().get(i);
+	}
+	public void addOdre(Ordre o){
+		this.getOrdres().add(o);
+	}
+	public void removeOrdre(int i){
+		this.getOrdres().remove(i);
+	}
+	public void removeOrdre(Ordre o){
+		this.getOrdres().remove(o);
+	}
+	public void setOrdres(ArrayList<Ordre> ordres) {
+		this.ordres = ordres;
+	}
+	public float getPrix() {
+		return prix;
+	}
+	public void setPrix(float prix) {
+		this.prix = prix;
+	}
+	/**
+	 *met à jours le prix en fonction de la liste d'ordre
+	 */
+	public void updatePrix(){
+		Collections.sort(this.getOrdres());
+		
 	}
 	/**
 	 * Ajoute l'acteur a au monde
@@ -156,6 +196,8 @@ public class Monde extends Observable {
 		
 		this.notifyObservers("step");
 		
+		
+		// chaque acteur est sollicité pour passer un ordre 
 		for (Acteurmodif a : this.acteurs) {
 			a.next();
 		}
