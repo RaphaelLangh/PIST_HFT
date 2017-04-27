@@ -118,6 +118,7 @@ public class Monde extends Observable {
 		}
 		else{
 			this.acteurs.remove(a);
+			System.out.println("L'acteur a n'existe pas dans le monde");
 		}
 	}
 	/**
