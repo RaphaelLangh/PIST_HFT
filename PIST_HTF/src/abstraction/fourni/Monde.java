@@ -94,6 +94,10 @@ public class Monde extends Observable {
 	 */
 	public void updatePrix(){
 		
+		// on trie les ordres 
+		this.getOrdres().sortOrdresachatfixe();
+		this.getOrdres().sortOrdresventefixe();
+		
 		
 	}
 	/**

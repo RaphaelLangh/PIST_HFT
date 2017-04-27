@@ -26,8 +26,11 @@ public class OrdreVenteFixe extends OrdrePrixFixe {
 	            		
 	            }
 	            };
-
-
-}
+	}
+	
+	public String toString(){
+		String s = "Ordre de vente au prix de "+this.getPrix()+"$"+" par "+this.getIdxacteur().getNom();
+		return s ;
+	}
 
 }

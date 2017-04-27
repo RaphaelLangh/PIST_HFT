@@ -18,6 +18,8 @@ public abstract class OrdrePrixFixe extends Ordre {
 		this.prix = prix;
 	}
 	
+	public abstract String toString();
+	
 	
 
 }

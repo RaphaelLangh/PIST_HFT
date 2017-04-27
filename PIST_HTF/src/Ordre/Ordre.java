@@ -41,7 +41,7 @@ public abstract class Ordre implements Comparable<Ordre> {
 		}
 	}
 	
-	
+	public abstract String toString();
 	
 
 }
