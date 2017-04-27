@@ -2,6 +2,8 @@ package abstraction.fourni;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import Ordre.OrdreAchatFixe.OrdreAchatSort;
+import Ordre.OrdreVenteFixe.OrdreVenteSort;
 
 import Ordre.*;
 
@@ -96,8 +98,43 @@ public class Ordres {
 		this.getOrdresventemarche().remove(o);
 	}
 	
+	public void addOrdre(Ordre o){
+		if(o instanceof OrdreAchatFixe){
+			this.addOrdresachatfixe((OrdreAchatFixe) o);
+		}
+		else if(o instanceof OrdreVenteFixe){
+			this.addOrdresventefixe((OrdreVenteFixe) o);
+		}
+		else if(o instanceof OrdreAchatMarche){
+			this.addOrdresachatmarche((OrdreAchatMarche) o);
+		}
+		else {
+			this.addOrdresventemarche((OrdreVenteMarche) o);
+		}
+	}
+	
+	public void removeOrdre(Ordre o){
+		if(o instanceof OrdreAchatFixe){
+			this.removeOrdresachatfixe((OrdreAchatFixe) o);
+		}
+		else if(o instanceof OrdreVenteFixe){
+			this.removeOrdresventefixe((OrdreVenteFixe) o);
+		}
+		else if(o instanceof OrdreAchatMarche){
+			this.removeOrdresachatmarche((OrdreAchatMarche) o);
+		}
+		else {
+			this.removeOrdresventemarche((OrdreVenteMarche) o);
+		}
+	}
+	
+	
 	public void sortOrdresachatfixe(){
-		Collections.sort(this.getOrdresachatfixe(),OrdreAchatSort);
+		Collections.sort(this.getOrdresachatfixe(),OrdreAchatSort.SORTBYPRICECROISSANT);
+	}
+	
+	public void sortOrdresventefixe(){
+		Collections.sort(this.getOrdresventefixe(),OrdreVenteSort.SORTBYPRICEDECROISSANT);
 	}
 	
 	

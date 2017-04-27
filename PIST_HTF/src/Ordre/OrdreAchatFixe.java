@@ -10,8 +10,8 @@ public class OrdreAchatFixe extends OrdrePrixFixe {
 		super(auteur,qtx,prix,step);
 	}
 	
-	public class OrdreAchatSort {
-	    final Comparator<OrdreAchatFixe> SORTBYPRICECROISSANT = 
+	public static class OrdreAchatSort {
+	    public static final Comparator<OrdreAchatFixe> SORTBYPRICECROISSANT = 
 	                                        new Comparator<OrdreAchatFixe>() {
 	            public int compare(OrdreAchatFixe e1, OrdreAchatFixe e2) {
 	                if(e1.getPrix()<e2.getPrix()){

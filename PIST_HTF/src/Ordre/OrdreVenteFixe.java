@@ -11,7 +11,7 @@ public class OrdreVenteFixe extends OrdrePrixFixe {
 	}
 	
 	public static class OrdreVenteSort {
-	    static final Comparator<OrdreVenteFixe> SORTBYPRICEDECROISSANT = 
+	   public static final Comparator<OrdreVenteFixe> SORTBYPRICEDECROISSANT = 
 	                                        new Comparator<OrdreVenteFixe>() {
 	            public int compare(OrdreVenteFixe e1, OrdreVenteFixe e2) {
 	                if(e2.getPrix()<e1.getPrix()){

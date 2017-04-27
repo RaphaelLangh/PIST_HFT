@@ -35,7 +35,7 @@ public class Monde extends Observable {
 	private ArrayList<Acteurmodif> acteurs;        // La liste des acteurs
 	private ArrayList<Indicateur> indicateurs;// La liste des indicateurs
 	private ArrayList<Journal> journaux;      // La liste des journaux
-	private ArrayList<Ordre> ordres;			//Ordres passés par les acteurs
+	private Ordres ordres;			//Ordres passés par les acteurs
 	private float prix ; 						// Prix du marché 
 	
 	/**
@@ -71,24 +71,17 @@ public class Monde extends Observable {
 	public int getStep() {
 		return this.step;
 	}
-	
-	public ArrayList<Ordre> getOrdres() {
+	public Ordres getOrdres() {
 		return this.ordres;
 	}
-	public Ordre getOrdre(int i){
-		return this.getOrdres().get(i);
-	}
-	public void addOdre(Ordre o){
-		this.getOrdres().add(o);
-	}
-	public void removeOrdre(int i){
-		this.getOrdres().remove(i);
+	public void add(Ordre o){
+		this.getOrdres().addOrdre(o);
 	}
 	public void removeOrdre(Ordre o){
-		this.getOrdres().remove(o);
+		this.getOrdres().removeOrdre(o);
 	}
-	public void setOrdres(ArrayList<Ordre> ordres) {
-		this.ordres = ordres;
+	public void set (Ordres o) {
+		this.ordres = o;
 	}
 	public float getPrix() {
 		return prix;
@@ -100,7 +93,7 @@ public class Monde extends Observable {
 	 *met à jours le prix en fonction de la liste d'ordre
 	 */
 	public void updatePrix(){
-		Collections.sort(this.getOrdres());
+		
 		
 	}
 	/**
