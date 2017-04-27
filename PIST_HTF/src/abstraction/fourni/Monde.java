@@ -113,6 +113,19 @@ public class Monde extends Observable {
 		}
 	}
 	/**
+	 * Supprime l'acteur a au monde
+	 * @param a l'acteur a supprimer
+	 */
+	public void supprimerActeur(Acteurmodif a){
+		if(this.getActeur(a.getNom())==null){
+			System.out.println("L'acteur a n'existe pas dans le monde");
+		}
+		else{
+			this.acteurs.remove(a);
+			System.out.println("L'acteur a a été supprimé");
+		}
+	}
+	/**
 	 * Ajoute l'indicateur i au monde
 	 * @param i l'idicateur a ajouter
 	 */
