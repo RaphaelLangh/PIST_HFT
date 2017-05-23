@@ -11,13 +11,13 @@ public class OrdreVenteFixe extends OrdrePrixFixe {
 	}
 	
 	public static class OrdreVenteSort {
-	   public static final Comparator<OrdreVenteFixe> SORTBYPRICEDECROISSANT = 
+	   public static final Comparator<OrdreVenteFixe> SORTBYPRICECROISSANT = 
 	                                        new Comparator<OrdreVenteFixe>() {
 	            public int compare(OrdreVenteFixe e1, OrdreVenteFixe e2) {
-	                if(e2.getPrix()<e1.getPrix()){
+	                if(e1.getPrix()<e2.getPrix()){
 	                	return -1 ;
 	                }
-	                else if(e1.getPrix()<e2.getPrix()){
+	                else if(e2.getPrix()<e1.getPrix()){
 	                	return 1 ;
 	                }
 	                else{
@@ -29,7 +29,7 @@ public class OrdreVenteFixe extends OrdrePrixFixe {
 	}
 	
 	public String toString(){
-		String s = "Ordre de vente au prix de "+this.getPrix()+"$"+" par "+this.getIdxacteur().getNom();
+		String s = "Ordre de vente de "+this.getQtx()+" à "+this.getPrix()+"$"+" par "+this.getIdxacteur().getNom();
 		return s ;
 	}
 

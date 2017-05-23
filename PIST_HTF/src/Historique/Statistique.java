@@ -5,6 +5,6 @@ package Historique;
  et utile à tout les acteurs pour leur prise de décision.
  */
 
-public class Historique {
+public class Statistique {
 
 }

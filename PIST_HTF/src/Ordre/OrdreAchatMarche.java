@@ -9,7 +9,7 @@ public class OrdreAchatMarche extends OrdrePrixMarche{
 	}
 	
 	public String toString(){
-		String s = "Ordre d'achat au prix du marche  par "+this.getIdxacteur().getNom();
+		String s = "Ordre d'achat au prix du marche" +" de "+this.getQtx()+ " par "+ this.getIdxacteur().getNom();
 		return s ;
 	}
 

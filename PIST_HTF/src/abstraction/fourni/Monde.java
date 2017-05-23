@@ -7,7 +7,11 @@ import java.util.Collections;
 
 import java.util.Observable;
 
+import Historique.Statistique;
 import Ordre.Ordre;
+import Ordre.Ordre.*;
+import Ordre.OrdreAchatMarche;
+import Ordre.OrdreVenteMarche;
 
 
 /**
@@ -36,17 +40,20 @@ public class Monde extends Observable {
 	private ArrayList<Indicateur> indicateurs;// La liste des indicateurs
 	private ArrayList<Journal> journaux;      // La liste des journaux
 	private Ordres ordres;			//Ordres passés par les acteurs
-	private float prix ; 						// Prix du marché 
+	private float prix ; 						// Prix du marché
+	//private Statistique Stat ;		// les stats 
 	
 	/**
 	 * Initialise le monde de sorte que le numero d'etape soit 0, 
 	 * et qu'il n'y ait pour l'heure aucun acteur/indicateur/journal.
 	 */
-	public Monde() {
+	public Monde(float prixdepart,Ordres ordre) {
 		this.step=0;
 		this.acteurs=new ArrayList<Acteurmodif>();
 		this.indicateurs=new ArrayList<Indicateur>();
 		this.journaux=new ArrayList<Journal>();
+		this.prix = prixdepart;
+		this.ordres = ordre;
 	}
 	/**
 	 * Methode appelee juste apres la creation de l'unique 
@@ -93,13 +100,81 @@ public class Monde extends Observable {
 	 *met à jours le prix en fonction de la liste d'ordre
 	 */
 	public void updatePrix(){
+		// initialisation des quantités disponible au prix du marche 
+		float qtachatmarche = 0 ;
+		float qtventemarche = 0 ;
+					
+		for(OrdreAchatMarche o : this.getOrdres().getOrdresachatmarche()){
+			qtachatmarche = + o.getQtx() ;
+			}
+		for(OrdreVenteMarche o : this.getOrdres().getOrdresventemarche()){
+			qtventemarche = + o.getQtx() ;
+			}
+		// si on a des ordres d'achat fixe et de vente fixe
+		if(!this.getOrdres().getOrdresachatfixe().isEmpty()&&!this.getOrdres().getOrdresventefixe().isEmpty()){
+			// on trie les ordres 
+			this.getOrdres().sortOrdresachatfixe();
+			this.getOrdres().sortOrdresventefixe();
+			this.getOrdres().sortprix();
+			
+			float prix1 = this.getOrdres().getListedesprix().get(0);
+			System.out.println(prix1);
+			float qt1 = Math.min(this.getOrdres().qtdispoachat(prix1)+qtachatmarche,this.getOrdres().qtdispovente(prix1)+qtventemarche);
+			System.out.println(qt1);
+			int i = 0 ;
+			System.out.println(this.getOrdres().getListedesprix().get(i+1));
+			System.out.println(Math.min(this.getOrdres().qtdispoachat(this.getOrdres().getListedesprix().get(i+1))+qtachatmarche,this.getOrdres().qtdispovente(i+1)+qtventemarche));
+			
+			while(i<this.ordres.getListedesprix().size()-1&&qt1<=Math.min(this.getOrdres().qtdispoachat(this.getOrdres().getListedesprix().get(i+1))+qtachatmarche,this.getOrdres().qtdispovente(i+1)+qtventemarche)){
+				System.out.println(qt1);
+				prix1 = this.getOrdres().getListedesprix().get(i+1);
+				qt1 = Math.min(this.getOrdres().qtdispoachat(this.getOrdres().getListedesprix().get(i+1))+qtachatmarche,this.getOrdres().qtdispovente(i+1)+qtventemarche) ;
+				i++;
+			}
+			// ouf...
+			this.setPrix(prix1);
+		}
+		// si on n'a pas d'ordre d'achat fixe mais des ordres de vente fixes 
+		else if(this.getOrdres().getOrdresachatfixe().isEmpty()&&!this.getOrdres().getOrdresventefixe().isEmpty()&&qtachatmarche!=0){
+			this.getOrdres().sortOrdresventefixe();
+			int nbventefixe= this.getOrdres().getOrdresventefixe().size();
+			int i = 0 ;
+			float qtvente=this.getOrdres().getOrdresventefixe(0).getQtx()+qtventemarche;
+			while(i<nbventefixe&&qtvente<qtachatmarche){
+				i++;
+				qtvente = + this.getOrdres().getOrdresventefixe(i).getQtx() ;
+			}
+			// si i=0 aucun ordre ne peut s'éxécuter 
+			if(i!=0){
+				this.prix = this.getOrdres().getOrdresventefixe(i-1).getPrix();
+			}
+		}
+		// si on n'a pas d'ordre de vente fixe mais que des ordres d'achat fixes 
+		else if(!this.getOrdres().getOrdresachatfixe().isEmpty()&&this.getOrdres().getOrdresventefixe().isEmpty()&&qtventemarche!=0){
+			this.getOrdres().sortOrdresachatfixe();
+			int nbachatfixe= this.getOrdres().getOrdresachatfixe().size();
+			int i = 0 ;
+			float qtachat=this.getOrdres().getOrdresachatfixe(0).getQtx()+qtachatmarche;
+			while(i<nbachatfixe&&qtachat<qtventemarche){
+				i++;
+				qtachat = + this.getOrdres().getOrdresachatfixe(i).getQtx() ;
+			}
+			// si i=0 aucun ordre ne peut s'éxécuter 
+			if(i!=0){
+				this.prix = this.getOrdres().getOrdresachatfixe(i-1).getPrix();
+			}
+		}
+		}
+	
 		
-		// on trie les ordres 
-		this.getOrdres().sortOrdresachatfixe();
-		this.getOrdres().sortOrdresventefixe();
 		
 		
-	}
+		
+		
+		
+		
+		
+	
 	/**
 	 * Ajoute l'acteur a au monde
 	 * @param a l'acteur a ajouter

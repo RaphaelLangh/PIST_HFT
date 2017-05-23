@@ -2,6 +2,8 @@ package abstraction.fourni;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
+
 import Ordre.OrdreAchatFixe.OrdreAchatSort;
 import Ordre.OrdreVenteFixe.OrdreVenteSort;
 
@@ -13,12 +15,14 @@ public class Ordres {
 	private ArrayList<OrdreAchatMarche> ordresachatmarche ;
 	private ArrayList<OrdreVenteFixe> ordresventefixe ;
 	private ArrayList<OrdreVenteMarche> ordresventemarche ;
+	private ArrayList<Float> listedesprix ;
 	
 	public Ordres(){
 		this.ordresachatfixe = new ArrayList<OrdreAchatFixe>() ;
 		this.ordresventefixe = new ArrayList<OrdreVenteFixe>() ;
 		this.ordresachatmarche = new ArrayList<OrdreAchatMarche>() ;
 		this.ordresventemarche = new ArrayList<OrdreVenteMarche>() ;
+		this.listedesprix = new ArrayList<Float>();
 	}
 
 	public ArrayList<OrdreAchatFixe> getOrdresachatfixe() {
@@ -45,7 +49,13 @@ public class Ordres {
 	public void setOrdresventemarche(ArrayList<OrdreVenteMarche> ordresventemarche) {
 		this.ordresventemarche = ordresventemarche;
 	}
-	
+	public ArrayList<Float> getListedesprix() {
+		return listedesprix;
+	}
+	public void setListedesprix(ArrayList<Float> listedesprix) {
+		this.listedesprix = listedesprix;
+	}
+
 	public OrdreAchatFixe getOrdresachatfixe(int i) {
 		return ordresachatfixe.get(i);
 	}
@@ -61,12 +71,18 @@ public class Ordres {
 	
 	public void addOrdresachatfixe(OrdreAchatFixe o){
 		this.getOrdresachatfixe().add(o);
+		if(!this.getListedesprix().contains(o.getPrix())){
+			this.getListedesprix().add(o.getPrix());
+		}
 	}
 	public void addOrdresachatmarche(OrdreAchatMarche o){
 		this.getOrdresachatmarche().add(o);
 	}
 	public void addOrdresventefixe(OrdreVenteFixe o){
 		this.getOrdresventefixe().add(o);
+		if(!this.getListedesprix().contains(o.getPrix())){
+			this.getListedesprix().add(o.getPrix());
+		}
 	}
 	public void addOrdresventemarche(OrdreVenteMarche o){
 		this.getOrdresventemarche().add(o);
@@ -74,25 +90,79 @@ public class Ordres {
 	
 	public void removeOrdresachatfixe(OrdreAchatFixe o){
 		this.getOrdresachatfixe().remove(o);
+		int i = 0 ;
+		while(i<this.getOrdresachatfixe().size()&&this.getOrdresachatfixe(i).getPrix()!=o.getPrix()){
+			i++;
+		}
+		if(i==this.getOrdresachatfixe().size()){
+			i=0;
+			while(i<this.getOrdresventefixe().size()&&this.getOrdresventefixe(i).getPrix()!=o.getPrix()){
+				i++;
+			}
+		}
+		if(i==this.getOrdresventefixe().size()){
+			this.listedesprix.remove(o.getPrix());
+		}
 	}
 	public void removeOrdresachatmarche(OrdreAchatMarche o){
 		this.getOrdresachatmarche().remove(o);
 	}
 	public void removeOrdresventefixe(OrdreVenteFixe o){
 		this.getOrdresventefixe().remove(o);
+		int i = 0 ;
+		while(i<this.getOrdresachatfixe().size()&&this.getOrdresachatfixe(i).getPrix()!=o.getPrix()){
+			i++;
+		}
+		if(i==this.getOrdresachatfixe().size()){
+			i=0;
+			while(i<this.getOrdresventefixe().size()&&this.getOrdresventefixe(i).getPrix()!=o.getPrix()){
+				i++;
+			}
+		}
+		if(i==this.getOrdresventefixe().size()){
+			this.listedesprix.remove(o.getPrix());
+		}
 	}
 	public void removeOrdresventemarche(OrdreVenteMarche o){
 		this.getOrdresventemarche().remove(o);
 	}
 	
 	public void removeOrdresachatfixe(int o){
+		float prix = this.getOrdresachatfixe(o).getPrix();
 		this.getOrdresachatfixe().remove(o);
+		int i = 0 ;
+		while(i<this.getOrdresachatfixe().size()&&this.getOrdresachatfixe(i).getPrix()!=prix){
+			i++;
+		}
+		if(i==this.getOrdresachatfixe().size()){
+			i=0;
+			while(i<this.getOrdresventefixe().size()&&this.getOrdresventefixe(i).getPrix()!=prix){
+				i++;
+			}
+		}
+		if(i==this.getOrdresventefixe().size()){
+			this.listedesprix.remove(prix);
+		}
 	}
 	public void removeOrdresachatmarche(int o){
 		this.getOrdresachatmarche().remove(o);
 	}
 	public void removeOrdresventefixe(int o){
+		float prix = this.getOrdresachatfixe(o).getPrix();
 		this.getOrdresventefixe().remove(o);
+		int i = 0 ;
+		while(i<this.getOrdresachatfixe().size()&&this.getOrdresachatfixe(i).getPrix()!=prix){
+			i++;
+		}
+		if(i==this.getOrdresachatfixe().size()){
+			i=0;
+			while(i<this.getOrdresventefixe().size()&&this.getOrdresventefixe(i).getPrix()!=prix){
+				i++;
+			}
+		}
+		if(i==this.getOrdresventefixe().size()){
+			this.listedesprix.remove(prix);
+		}
 	}
 	public void removeOrdresventemarche(int o){
 		this.getOrdresventemarche().remove(o);
@@ -113,6 +183,12 @@ public class Ordres {
 		}
 	}
 	
+	public void addOrdre(Ordre[] os){
+		for(Ordre o : os){
+			this.addOrdre(o);
+		}
+	}
+	
 	public void removeOrdre(Ordre o){
 		if(o instanceof OrdreAchatFixe){
 			this.removeOrdresachatfixe((OrdreAchatFixe) o);
@@ -130,13 +206,70 @@ public class Ordres {
 	
 	
 	public void sortOrdresachatfixe(){
-		Collections.sort(this.getOrdresachatfixe(),OrdreAchatSort.SORTBYPRICECROISSANT);
+		Collections.sort(this.getOrdresachatfixe(),OrdreAchatSort.SORTBYPRICEDECROISSANT);
 	}
 	
 	public void sortOrdresventefixe(){
-		Collections.sort(this.getOrdresventefixe(),OrdreVenteSort.SORTBYPRICEDECROISSANT);
+		Collections.sort(this.getOrdresventefixe(),OrdreVenteSort.SORTBYPRICECROISSANT);
 	}
 	
+	public void sortprix(){
+		Collections.sort(this.getListedesprix());
+	}
+	
+	/* renvoit la quantité FIXE disponible pour un certain prix en supposant le classement
+	 * par ordre croissant de ordresachatfixe
+	*/
+	public float qtdispoachat(float prix){
+		float qt = 0 ;
+		int i = 0 ;
+		int n = this.getOrdresachatfixe().size();
+		while(i<n&&this.getOrdresachatfixe(i).getPrix()>=prix){
+			qt = qt + this.getOrdresachatfixe(i).getQtx() ;
+			i++;
+		}
+		return qt ;
+	}
+	public float qtdispovente(float prix){
+		float qt = 0 ;
+		int i = 0 ;
+		int n = this.getOrdresventefixe().size();
+		while(i<n&&this.getOrdresventefixe(i).getPrix()<=prix){
+			qt = qt + this.getOrdresventefixe(i).getQtx() ;
+			i++;
+		}
+			
+		return qt ;
+	}
+	
+	public String toString(){
+		String s = "Odres achat fixe : " ;
+		for(OrdreAchatFixe ord : this.getOrdresachatfixe()){
+			s = s + "[ "+ord.toString()+" ]" ;
+		}
+		s=s+"\n";
+		s= s +  "Odres vente fixe : " ;
+		for(OrdreVenteFixe ord : this.getOrdresventefixe()){
+			s = s + "[ "+ord.toString()+" ]" ;
+		}
+		s=s+"\n";
+		s= s +  "Odres achat marche : " ;
+		for(OrdreAchatMarche ord : this.getOrdresachatmarche()){
+			s = s + "[ "+ord.toString()+" ]" ;
+		}
+		s=s+"\n";
+		s= s +  "Odres vente marche : " ;
+		for(OrdreVenteMarche ord : this.getOrdresventemarche()){
+			s = s + "[ "+ord.toString()+" ]" ;
+		}
+		s=s+"\n";
+		s = s +  "liste des prix : " ;
+		for(float ord : this.getListedesprix()){
+			s = s + "[ "+ord+" ]" ;
+		}
+		s=s+"\n";
+		return s;
+	}
 	
 	
 

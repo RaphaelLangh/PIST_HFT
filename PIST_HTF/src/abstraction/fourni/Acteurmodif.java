@@ -14,7 +14,7 @@ import decision.*;
 // Un acteur correspond à un acheteur/ vendeur 
 
 
-public abstract class Acteurmodif {
+public class Acteurmodif {
 	
 	private float solde ; // l'argent en possession de l'acteur 
 	
@@ -24,7 +24,15 @@ public abstract class Acteurmodif {
 	
 	private int idx ; // Un indentifiant unique
 	
-	private Decisionel decision ; // la stratégie suivit par l'acteur 
+	//private Decisionel decision ; // la stratégie suivit par l'acteur 
+	
+	public Acteurmodif(float s,float qtaction,String nom ,int id){
+		this.solde=s;
+		this.qtaction=qtaction;
+		this.nom =nom ;
+		this.idx=id;
+		//this.decision=d;
+	}
 
 	
 /// Getter et Setter 
@@ -80,10 +88,8 @@ public abstract class Acteurmodif {
 		this.setQtaction(this.getQtaction()-qtx);
 		this.setSolde(this.getSolde()+qtx*prix);
 	}
-
-
-	/**
-	 * Methode de l'acteur invoquee suite a l'appui sur le bouton NEXT de la fenetre principale
-	 */
-	public abstract void next();
+	
 }
+
+
+	
